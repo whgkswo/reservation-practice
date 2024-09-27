@@ -11,9 +11,4 @@ public class Member {
 
     @Column
     private String id;
-
-    @Column
-    private String password;
-
-    
 }
