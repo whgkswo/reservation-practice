@@ -1,14 +1,31 @@
 package com.springboot.member.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+import org.mapstruct.ap.internal.model.GeneratedType;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class Member {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long memberId;
 
-    @Column
+    @Column(nullable = false)
     private String id;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String name;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Column(nullable = false)
+    private List<String> roles = new ArrayList<>();
 }

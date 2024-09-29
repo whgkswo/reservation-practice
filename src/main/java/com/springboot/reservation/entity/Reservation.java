@@ -1,19 +1,32 @@
 package com.springboot.reservation.entity;
 
 import com.springboot.member.entity.Member;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 public class Reservation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long reservationId;
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "counselor_id")
     private Member counselor;
-
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "client_id")
     private Member client;
 
+    @Column
+    private LocalDateTime startTime;
+
+    @Column
+    private LocalDateTime endTime;
+
+    @Column
+    private LocalDateTime createdAt = LocalDateTime.now();
 }
