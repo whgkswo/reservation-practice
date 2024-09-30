@@ -2,7 +2,6 @@ package com.springboot.member.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.mapstruct.ap.internal.model.GeneratedType;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class Member {
     private String password;
 
     @Column(nullable = false)
-    private String name;
+    private String nickname;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(nullable = false)

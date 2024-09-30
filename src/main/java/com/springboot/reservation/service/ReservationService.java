@@ -24,7 +24,7 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
     public Reservation getReservation(String counselorName){
-        Optional<Reservation> optionalReservation = reservationRepository.findByCounselorName(counselorName);
+        Optional<Reservation> optionalReservation = reservationRepository.findByCounselorNickname(counselorName);
         return optionalReservation.orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESERVATION_NOT_FOUND));
     }
     public Reservation getReservation(LocalDateTime startTime){

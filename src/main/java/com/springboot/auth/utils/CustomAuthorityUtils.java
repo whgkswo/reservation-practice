@@ -30,8 +30,8 @@ public class CustomAuthorityUtils {
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
     }
-    public List<String> createRoles(String email){
-        if(email.equals(adminMailAddress)){
+    public List<String> createRoles(String userId){
+        if(userId.equals(adminMailAddress)){
             return ADMIN_ROLES_STRING;
         }
         return USER_ROLES_STRING;

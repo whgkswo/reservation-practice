@@ -26,8 +26,7 @@ public class MemberService {
 
         List<String> roles = customAuthorityUtils.createRoles("hgd@gmail.com");
         member.setRoles(roles);
-        Member savedMember = memberRepository.save(member);
-        return savedMember;
+        return memberRepository.save(member);
     };
     public Member findMember(long memberId){
         return findVerifiedMember(memberId);
