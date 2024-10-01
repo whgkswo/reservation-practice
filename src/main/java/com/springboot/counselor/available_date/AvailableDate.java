@@ -57,6 +57,7 @@ public class AvailableDate {
         for(AvailableTime time : availableTimes){
             if(time.getStartTime().equals(reservationTime)){
                 if(time.getReservation() != null){
+                    // 이미 예약된 시간이다 임마
                     throw new BusinessLogicException(ExceptionCode.RESERVATION_TIMESLOT_OCCUPIED);
                 }else{
                     // 유효한 예약 가능 시간을 발견하면 예약 시간을 등록하고 탈출

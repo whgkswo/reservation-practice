@@ -1,43 +1,42 @@
 package com.springboot.auth.userdetails;
 
 import com.springboot.auth.utils.CustomAuthorityUtils;
+import com.springboot.counselor.entity.Counselor;
+import com.springboot.counselor.repository.CounselorRepository;
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
-import com.springboot.member.entity.Member;
-import com.springboot.member.repository.MemberRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Optional;
 
 @Component
-public class MemberDetailsService implements UserDetailsService {
-    private final MemberRepository memberRepository;
+public class CounselorDetailsService implements UserDetailsService {
+    private final CounselorRepository counselorRepository;
     private final CustomAuthorityUtils authorityUtils;
 
-    public MemberDetailsService(MemberRepository memberRepository, CustomAuthorityUtils authorityUtils) {
-        this.memberRepository = memberRepository;
+    public CounselorDetailsService(CounselorRepository counselorRepository, CustomAuthorityUtils authorityUtils) {
+        this.counselorRepository = counselorRepository;
         this.authorityUtils = authorityUtils;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        Optional<Member> optionalMember = memberRepository.findByUserId(userId);
-        Member findMember = optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-
-        return new MemberDetails(findMember);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<Counselor> optionalCounselor = counselorRepository.findByUserId(username);
+        Counselor findCounselor = optionalCounselor.orElseThrow(() -> new BusinessLogicException(ExceptionCode.COUNSELOR_NOT_FOUND));
+        return new CounselorDetails(findCounselor);
     }
 
-    private final class MemberDetails extends Member implements UserDetails {
-        // (1)
-        MemberDetails(Member member) {
-            setMemberId(member.getMemberId());
-            setUserId(member.getUserId());
-            setPassword(member.getPassword());
-            setRoles(member.getRoles());
+    private final class CounselorDetails extends Counselor implements UserDetails{
+        CounselorDetails(Counselor counselor){
+            setCounselorId(counselor.getCounselorId());
+            setUserId(counselor.getUserId());
+            setPassword(counselor.getPassword());
+            setRoles(counselor.getRoles());
         }
 
         @Override

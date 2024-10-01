@@ -13,6 +13,5 @@ jwt:
   key: rkskekfkakqktkdkwkckzkxkvkgkrkskekfkakqktk
   access-token-expiration-minutes: 50000
   refresh-token-expiration-minutes: 50000
-mail:
-  address:
-    admin: admin@gmail.com
+user-id:
+  admin: admin

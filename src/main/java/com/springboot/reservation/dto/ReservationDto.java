@@ -24,4 +24,18 @@ public class ReservationDto {
         private LocalDate date;
         private List<LocalTime> startTimes;
     }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Response{
+        private long reservationId;
+        private long counselorId;
+        private String comment;
+        private Reservation.CounselingType type;
+        private LocalDate date;
+        private LocalTime startTime;
+        private LocalTime endTime;
+    }
 }

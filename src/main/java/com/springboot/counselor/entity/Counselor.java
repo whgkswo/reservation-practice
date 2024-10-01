@@ -49,8 +49,7 @@ public class Counselor {
     @OneToMany(mappedBy = "counselor", cascade = CascadeType.ALL, orphanRemoval = true)
     private Map<LocalDate ,AvailableDate> availableDates = new HashMap();
 
-    @Column
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection
     private List<String> roles = new ArrayList<>();
 
     @Column

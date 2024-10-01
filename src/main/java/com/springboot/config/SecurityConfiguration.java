@@ -1,5 +1,6 @@
 package com.springboot.config;
 
+import com.springboot.auth.CustomAuthenticationProvider;
 import com.springboot.auth.filter.JwtAuthenticationFilter;
 import com.springboot.auth.filter.JwtVerificationFilter;
 import com.springboot.auth.handler.MemberAuthenticationFailureHandler;
@@ -11,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -27,9 +30,11 @@ import java.util.Arrays;
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils) {
+    private final CustomAuthenticationProvider customAuthenticationProvider;
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils, CustomAuthenticationProvider customAuthenticationProvider) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
+        this.customAuthenticationProvider = customAuthenticationProvider;
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -44,6 +49,7 @@ public class SecurityConfiguration {
                 .httpBasic().disable()
                 .apply(new CustomFilterConfigurer())
                 .and()
+                .authenticationProvider(customAuthenticationProvider) // 커스텀 authenticationProvider 적용
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST,"/members").permitAll()
                         .antMatchers(HttpMethod.PATCH,"/members/**").hasRole("ADMIN")

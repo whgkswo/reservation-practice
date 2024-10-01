@@ -26,6 +26,7 @@ public class ReservationService {
         // 예약 가능한 시간인지 검사 (예외는 내부적으로 처리, 예약 시간 등록도 내부적으로 처리)
         counselor.getAvailableDate(date).validateReservationTimes(reservation, startTimes);
 
+
         return reservationRepository.save(reservation);
     }
 

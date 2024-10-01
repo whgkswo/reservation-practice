@@ -63,4 +63,11 @@ public class Reservation {
         COMPLETED,
         REPORT_COMPLETED
     }
+
+    public void setMember(Member member){
+        this.member = member;
+        if(!member.getReservations().contains(this)){
+            member.addReservation(this);
+        }
+    }
 }

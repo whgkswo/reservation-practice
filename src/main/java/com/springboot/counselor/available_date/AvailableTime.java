@@ -34,9 +34,6 @@ public class AvailableTime {
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
 
-    @Column
-    private boolean isReserved = false;
-
     public AvailableTime(LocalTime startTime, LocalTime endTime){
         this.startTime = startTime;
         this.endTime = endTime;
