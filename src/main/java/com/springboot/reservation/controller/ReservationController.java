@@ -1,5 +1,6 @@
 package com.springboot.reservation.controller;
 
+import com.springboot.counselor.service.CounselorService;
 import com.springboot.exception.BusinessLogicException;
 import com.springboot.exception.ExceptionCode;
 import com.springboot.member.entity.Member;
@@ -26,13 +27,17 @@ public class ReservationController {
     private final ReservationService reservationService;
     private final ReservationMapper reservationMapper;
     private final MemberService memberService;
+    private final CounselorService counselorService;
     @PostMapping
     public ResponseEntity<Reservation> postReservation(@RequestBody ReservationDto.Post postDto){
         Reservation tempReservation = reservationMapper.reservationPostDtoToReservation(postDto);
-        Member counselor = memberService.findMember(postDto.getCounselorId());
-        Member client = memberService.findMember(postDto.getClientId());
-        tempReservation.setCounselor(counselor);
-        tempReservation.setClient(client);
+
+        // 멤버 찾아서 넣기
+        Member member = memberService.findMember(postDto.getMemberId());
+        tempReservation.setMember(member);
+
+        // 상담사는 있는지만 검사(없으면 예외 발생)
+        counselorService.findCounselor(postDto.getCounselorId());
 
         Reservation reservation = reservationService.createReservation(tempReservation);
 
@@ -40,17 +45,12 @@ public class ReservationController {
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping
-    public ResponseEntity<Reservation> getReservation(@RequestParam(required = false) String counselorName,
-                                                      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime){
-        if(counselorName != null){
-            Reservation reservation = reservationService.getReservation(counselorName);
-            return new ResponseEntity<>(reservation, HttpStatus.OK);
-        }
+    /*@GetMapping
+    public ResponseEntity<Reservation> getReservation(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime){
         if(startTime != null){
             Reservation reservation = reservationService.getReservation(startTime);
             return new ResponseEntity<>(reservation, HttpStatus.OK);
         }
         throw new BusinessLogicException(ExceptionCode.PARAM_NOT_FOUND);
-    }
+    }*/
 }

@@ -39,6 +39,7 @@ public class Member {
     private String ci;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private MemberStatus memberStatus = MemberStatus.ACTIVE;
 
     @Column

@@ -1,11 +1,11 @@
 package com.springboot.counselor.entity;
 
+import com.springboot.counselor.available_date.AvailableDate;
 import com.springboot.gender.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -47,6 +47,9 @@ public class Counselor {
     @Column
     private String userId;
 
+    @OneToMany(mappedBy = "counselor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AvailableDate> availableDates = new ArrayList<>();
+
     @Column
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
@@ -71,5 +74,12 @@ public class Counselor {
         VERIFICATION_WAITING,
         ACTIVE,
         INACTIVE
+    }
+
+    public void addAvailableDate(AvailableDate availableDate){
+        availableDates.add(availableDate);
+        if(availableDate.getCounselor() == null){
+            availableDate.setCounselor(this);
+        }
     }
 }

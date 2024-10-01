@@ -1,5 +1,6 @@
 package com.springboot.reservation.dto;
 
+import com.springboot.reservation.entity.Reservation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +14,9 @@ public class ReservationDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Post{
+        private long memberId;
         private long counselorId;
-        private long clientId;
-        private LocalDateTime startTime;
-        private LocalDateTime endTime;
+        private String comment;
+        private Reservation.CounselingType type;
     }
 }

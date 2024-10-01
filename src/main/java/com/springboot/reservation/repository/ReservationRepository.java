@@ -7,6 +7,4 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    Optional<Reservation> findByCounselorNickname(String counselorName);
-    Optional<Reservation> findByStartTime(LocalDateTime startTime);
 }
