@@ -25,9 +25,13 @@ public class MemberDto {
         private String ci;
     }
 
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @Setter
     public static class Response{
         private long memberId;
-        private String userid;
+        private String userId;
         private String nickname;
         private LocalDate birth;
         private Gender gender;

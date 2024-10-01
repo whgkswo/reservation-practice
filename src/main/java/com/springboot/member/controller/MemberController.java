@@ -1,6 +1,6 @@
 package com.springboot.member.controller;
 
-import com.springboot.dto.SingleResponseEntity;
+import com.springboot.response.SingleResponseEntity;
 import com.springboot.member.dto.MemberDto;
 import com.springboot.member.entity.Member;
 import com.springboot.member.mapper.MemberMapper;
@@ -31,7 +31,7 @@ public class MemberController {
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping("/{member_id}")
+    @GetMapping("/{memberId}")
     public SingleResponseEntity<MemberDto.Response> getMember(@PathVariable long memberId,
                                                               Authentication authentication){
         Member findMember = memberService.findMember(memberId);
