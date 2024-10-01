@@ -6,7 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 
 public class ReservationDto {
     @Getter
@@ -18,5 +21,7 @@ public class ReservationDto {
         private long counselorId;
         private String comment;
         private Reservation.CounselingType type;
+        private LocalDate date;
+        private List<LocalTime> startTimes;
     }
 }

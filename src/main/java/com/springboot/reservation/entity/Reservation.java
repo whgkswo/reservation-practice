@@ -1,11 +1,14 @@
 package com.springboot.reservation.entity;
 
+import com.springboot.counselor.available_date.AvailableTime;
 import com.springboot.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -38,6 +41,9 @@ public class Reservation {
     @Column
     @Enumerated(EnumType.STRING)
     private CounselingType type;
+
+    @OneToMany(mappedBy = "reservation")
+    private List<AvailableTime> reservationTimes = new ArrayList<>();
 
     @Column
     private LocalDateTime createdAt = LocalDateTime.now();

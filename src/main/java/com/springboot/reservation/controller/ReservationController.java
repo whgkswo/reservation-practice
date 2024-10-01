@@ -39,7 +39,7 @@ public class ReservationController {
         // 상담사는 있는지만 검사(없으면 예외 발생)
         counselorService.findCounselor(postDto.getCounselorId());
 
-        Reservation reservation = reservationService.createReservation(tempReservation);
+        Reservation reservation = reservationService.createReservation(tempReservation, postDto.getDate(), postDto.getStartTimes());
 
         URI location = UriCreator.createUri(DEFAULT_URL, reservation.getReservationId());
         return ResponseEntity.created(location).build();

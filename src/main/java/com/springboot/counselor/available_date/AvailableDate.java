@@ -1,12 +1,14 @@
 package com.springboot.counselor.available_date;
 
 import com.springboot.counselor.entity.Counselor;
+import com.springboot.exception.BusinessLogicException;
+import com.springboot.exception.ExceptionCode;
+import com.springboot.reservation.entity.Reservation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -41,14 +43,34 @@ public class AvailableDate {
 
     public void setCounselor(Counselor counselor){
         this.counselor = counselor;
-        if(!counselor.getAvailableDates().contains(this)){
-            counselor.getAvailableDates().add(this);
+        if(!counselor.getAvailableDates().containsKey(this)){
+            counselor.getAvailableDates().put(date, this);
         }
     }
     public void addAvailableTime(AvailableTime availableTime){
         availableTimes.add(availableTime);
         if(availableTime.getAvailableDate() == null){
             availableTime.setAvailableDate(this);
+        }
+    }
+    private void validateReservationTime(Reservation reservation, LocalTime reservationTime){
+        for(AvailableTime time : availableTimes){
+            if(time.getStartTime().equals(reservationTime)){
+                if(time.getReservation() != null){
+                    throw new BusinessLogicException(ExceptionCode.RESERVATION_TIMESLOT_OCCUPIED);
+                }else{
+                    // 유효한 예약 가능 시간을 발견하면 예약 시간을 등록하고 탈출
+                    time.setReservation(reservation);
+                    return;
+                }
+            }
+        }
+        // 입력한 시간이 예약 가능 시간대에 없을 때
+        throw new BusinessLogicException(ExceptionCode.UNAVAILABLE_TIME);
+    }
+    public void validateReservationTimes(Reservation reservation, List<LocalTime> reservationTimes) {
+        for(LocalTime reservationTime: reservationTimes){
+            validateReservationTime(reservation, reservationTime);
         }
     }
 }

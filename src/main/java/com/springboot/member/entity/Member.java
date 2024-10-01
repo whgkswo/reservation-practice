@@ -48,7 +48,7 @@ public class Member {
     @Column
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @Column(nullable = false)
     private List<String> roles = new ArrayList<>();
 

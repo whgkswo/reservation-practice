@@ -1,6 +1,9 @@
 package com.springboot.counselor.available_date;
 
+import com.springboot.reservation.entity.Reservation;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +13,8 @@ import java.time.LocalTime;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AvailableTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +29,10 @@ public class AvailableTime {
 
     @Column
     private LocalTime endTime;
+
+    @ManyToOne
+    @JoinColumn(name = "reservation_id")
+    private Reservation reservation;
 
     @Column
     private boolean isReserved = false;

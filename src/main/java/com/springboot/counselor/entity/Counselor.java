@@ -10,8 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Getter
@@ -48,7 +47,7 @@ public class Counselor {
     private String userId;
 
     @OneToMany(mappedBy = "counselor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AvailableDate> availableDates = new ArrayList<>();
+    private Map<LocalDate ,AvailableDate> availableDates = new HashMap();
 
     @Column
     @ElementCollection(fetch = FetchType.EAGER)
@@ -77,9 +76,13 @@ public class Counselor {
     }
 
     public void addAvailableDate(AvailableDate availableDate){
-        availableDates.add(availableDate);
+        availableDates.put(availableDate.getDate(), availableDate);
         if(availableDate.getCounselor() == null){
             availableDate.setCounselor(this);
         }
+    }
+
+    public AvailableDate getAvailableDate(LocalDate date){
+        return availableDates.get(date);
     }
 }
